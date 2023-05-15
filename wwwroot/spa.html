@@ -13,16 +13,32 @@
                 <input type="text" required />
                 <label>Password:</label>
                 <input type="password" required />
-                <button type="button" id="btnLogin">Login</button>
+                <button type="button" onclick="btnLogin()">Login</button>
             </div>
         </form>
     </div>
+    <!--List of todos-->
+    <div id="listalltodos">
+
+    </div>
+
     <script>
-        $(function () {
-            $("#btnLogin").click(
-                alert("Hello from login page");
-            );
-        });
+
+        function btnLogin() {
+            // rest api's and then start writing the functionality
+
+            // httpclient = js http client  -> ajax which can be used for http client 
+
+            var httpClient = new XMLHttpRequest();
+            httpClient.onreadystatechange = function () {
+                if (this.readyState == 200)
+                    document.getElementById("listalltodos").innerHTML = this.responseText;
+            }
+            httpClient.open("GET", "http://localhost:5283/todos", true)
+            httpClient.send(); // response
+
+            alert("Hello from login page");
+        }
     </script>
 </body>
 </html>
