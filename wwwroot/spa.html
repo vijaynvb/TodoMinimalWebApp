@@ -31,8 +31,16 @@
 
             var httpClient = new XMLHttpRequest();
             httpClient.onreadystatechange = function () {
-                if (this.readyState == 200)
+                console.log(this.readyState);
+                console.log(this.responseText);
+                if (this.readyState == 4 && this.status == 200 ) {
                     document.getElementById("listalltodos").innerHTML = this.responseText;
+                    console.log(this.responseText);
+                }
+                else {
+                    console.log("No Response");
+                }
+                    
             }
             httpClient.open("GET", "http://localhost:5283/todos", true)
             httpClient.send(); // response
