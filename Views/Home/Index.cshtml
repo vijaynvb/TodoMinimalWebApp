@@ -1,0 +1,32 @@
+﻿@model IndexViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <div class="d-flex align-items-center">
+        <h1 class="display-4 mb-3">Todos</h1>
+        <a asp-controller="Home" asp-action="Create" class="btn btn-primary ms-3" type="button">Create New Todo</a>
+    </div>
+
+    @foreach (var todo in Model.Todos)
+    {
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <div class="input-group-text w-100 h-100">
+                    <input type="checkbox" value="@todo.IsCompleted" aria-label="Checkbox for following text input">
+                </div>
+            </div>
+            <input type="text" class="form-control" value="@todo.Title" aria-label="Text input with checkbox" readonly>
+            <div class="input-group-prepend">
+                <a asp-controller="Home" asp-action="Edit" asp-route-todoId="@todo.Id" class="btn btn-outline-warning"
+                    type="button">Edit</a>
+            </div>
+            <div class="input-group-prepend">
+                <a asp-controller="Home" asp-action="Delete" asp-route-todoId="@todo.Id" class="btn btn-outline-danger"
+                    type="button">Delete</a>
+            </div>
+        </div>
+    }
+</div>
