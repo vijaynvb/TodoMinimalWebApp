@@ -39,13 +39,14 @@
                 }
                 else {
                     console.log("No Response");
-                }
-                    
+                }     
             }
-            httpClient.open("GET", "http://localhost:5283/todos", true)
-            httpClient.send(); // response
+            httpClient.open("POST", "http://localhost:5283/login", true);
+            httpClient.setRequestHeader("ApiKey", "RANDomValuetoDenoteAPIKeyWithNumbers131235");
+            httpClient.setRequestHeader("Content-type", "application/json")
+            httpClient.send('{"userName": "user@example.com","password": "string","rememberMe": true}'); // response
 
-            alert("Hello from login page");
+            //alert("Hello from login page");
         }
     </script>
 </body>

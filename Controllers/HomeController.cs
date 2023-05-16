@@ -18,9 +18,10 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
+        var token = HttpContext.Session.GetString("JWToken");
         var viewModel = new IndexViewModel
         {
-            Todos = await _todosRepository.GetAllTodos()
+            Todos = await _todosRepository.GetAllTodos(token)
         };
 
         return View(viewModel);

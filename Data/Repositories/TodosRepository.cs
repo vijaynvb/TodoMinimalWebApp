@@ -7,10 +7,12 @@ namespace TodoMinimalWebApp.Data.Repositories;
 public class TodosRepository : ITodosRepository
 {
     private readonly HttpClient _httpClient;
+    private readonly IConfiguration _configs;
 
-    public TodosRepository()
+    public TodosRepository(IConfiguration configs)
     {
         _httpClient = new HttpClient();
+        _configs = configs;
         // jsonplaceholder.typicode server
         //_httpClient.BaseAddress = new Uri("https://jsonplaceholder.typicode.com");
         // Local server
@@ -20,8 +22,10 @@ public class TodosRepository : ITodosRepository
     public async Task<Todo?> CreateTodo(Todo newTodo)
     {
         var newTodoAsString = JsonConvert.SerializeObject(newTodo);
-        var responseBody = new StringContent(newTodoAsString, Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync("/todos", responseBody);
+        var requestBody = new StringContent(newTodoAsString, Encoding.UTF8, "application/json");
+        _httpClient.DefaultRequestHeaders.Add("ApiKey", "RANDomValuetoDenoteAPIKeyWithNumbers131235");
+        _httpClient.DefaultRequestHeaders.Add("Authorization","Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODQyMTM3MzUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTI4MyIsImF1ZCI6IlVzZXIifQ.mgRVAgMveIbDBFrGhYqV4LqqSkKea3me5XGq8gZZSxk");
+        var response = await _httpClient.PostAsync("/todos", requestBody);
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
@@ -42,9 +46,12 @@ public class TodosRepository : ITodosRepository
         }
     }
 
-    public async Task<List<Todo>> GetAllTodos()
+    public async Task<List<Todo>> GetAllTodos(string token)
     {
+        _httpClient.DefaultRequestHeaders.Add("ApiKey", _configs.GetValue<string>("ApiKey"));
+        _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
         var response = await _httpClient.GetAsync("/todos");
+
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
