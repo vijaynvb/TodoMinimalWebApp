@@ -28,7 +28,8 @@ namespace TodoMinimalWebApp.Controllers
                     UserName = userViewModel.UserName,
                     Email = userViewModel.Email,
                     FirstName = userViewModel.FirstName,
-                    LastName = userViewModel.LastName
+                    LastName = userViewModel.LastName,
+                    Password = userViewModel.Password
                 };
                 var result = await _repo.SignUpUserAsync(userModel);
                 if (result)
